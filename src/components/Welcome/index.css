@@ -1,0 +1,14 @@
+.welcome-container{
+    width:50%;
+    height:50%;
+    margin:auto;
+    border:solid;
+    display:flex;
+    flex-direction: column;
+   
+}
+
+#google-button{
+    align-self: center;
+    padding:20px;
+}
