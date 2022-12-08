@@ -1,0 +1,22 @@
+.child-preview{
+    display:flex;
+    flex-direction: column;
+    border:solid;
+    width:200px;
+    height:200px;
+    margin:30px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.child-preview>h1{
+    padding:0;
+    height: 30px;
+    margin:0px;
+}
+
+.child-preview>img{
+    height:100px;
+    width:100px;
+    
+}

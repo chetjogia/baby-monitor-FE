@@ -1,0 +1,44 @@
+.parent-info-container{
+    display:flex;
+    border:solid;
+    width: 80%;
+    margin:auto;
+    margin-top: 80px;
+}
+
+.profile-image{
+  
+}
+
+
+.profile-image>img{
+    height:300px;
+}
+
+.greeting{
+    padding:30px;
+}
+
+.greeting>h1{
+    font-size: 40px;
+}
+
+.greeting>q{
+    word-wrap: normal;
+    font-size: 35px;
+    font-style: italic;
+}
+
+.little-ones-page-break{
+    display:flex;
+    width: 80%;
+    height: 40px;
+    margin: auto;
+    border:solid;
+    margin-top:30px;
+}
+
+.little-ones-page-break>h1{
+    align-self: center;
+    margin-left: 30px;
+}

@@ -1,14 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './components/App/App.js';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./components/App/App.js";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import ParentProfile from "./components/ParentProfile";
+import SignIn from './components/SignIn'
+import Header from "./components/Header";
+import ChildProfile from './components/ChildProfile'
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Header/>
+      <Routes>
+        <Route path='' element={<App/>}/>
+        <Route path='/signin' element={<SignIn/>}/>
+        <Route path='/profile' element={<ParentProfile/>}/>
+        <Route path='/child' element={<ChildProfile/>}/>
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
 
