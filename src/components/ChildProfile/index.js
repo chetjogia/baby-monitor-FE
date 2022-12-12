@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./index.css";
 import { useState } from "react";
+import Modal from "../Modal";
 
 function ChildProfile() {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +43,7 @@ function ChildProfile() {
           </div>
         </div>
         <div className="button-container">
-          <button className="baby-stat-button">Feeding</button>
+          <Modal/>
           <button className="baby-stat-button">Sleeping</button>
           <button className="baby-stat-button">Nappies</button>
           <button className="baby-stat-button">Weight</button>
