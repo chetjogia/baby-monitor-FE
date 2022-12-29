@@ -13,12 +13,17 @@
 }
 
 .modal {
+
   border: solid;
   border-width: 10px;
+  overflow: scroll;
 }
 
 .modal-content {
   position: absolute;
+  display:flex;
+  flex-direction: column;
+  gap:20px;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -28,4 +33,15 @@
   border-radius: 3px;
   max-width: 2000px;
   min-width: 300px;
+}
+
+.modal-content>button{
+  align-self: center;
+  width:50px;
+}
+
+.modal-content>h1{
+  margin:0px;
+  padding:0px;
+  align-self: center;
 }

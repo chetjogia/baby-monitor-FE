@@ -1,29 +1,57 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
-import ChildList from '../ChildList'
+import ChildList from "../ChildList";
+import { auth } from "../../firebase";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Signup() {
   const [isLoading, setIsLoading] = useState(true);
   const [parent, setParent] = useState(null);
   const [childrenOfParent, setChildrenOfParent] = useState(null);
+  const [token, setToken] = useState()
+
+  const { currentUser } = useAuth();
 
   useEffect(() => {
+   /*  fetchData() */
     getParentAndChildData();
   }, []);
 
+  
+/* 
+  async function fetchData() {
+
+    const response = await fetch(
+      `http://localhost:3000/api/babymonitor/parent/`
+    );
+    const data = await response.json();
+    console.log(data);
+  } */
+
   async function getParentAndChildData() {
+    let token = await currentUser.getIdToken()
     //fetch request to obtain data for individual parent who's logged in (atm, hard coded for parent with id 1)
     //TODO change the parent based on who's logged in;
     const parentResponse = await fetch(
-      "http://localhost:3000/api/babymonitor/parent/1"
+      `http://localhost:3000/api/babymonitor/parent/${currentUser.uid}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
     );
     const parentData = await parentResponse.json();
     setParent(parentData.payload[0]);
-
+    console.log("PARENT", parentData)
     //fetch request to obtain data for the children belonging to the parent who has logged in
     //Parent ID currently hardcoded as above
     const childrenOfParentResponse = await fetch(
-      "http://localhost:3000/api/babymonitor/parentchildren/1"
+      `http://localhost:3000/api/babymonitor/parentchildren/${parentData.payload[0].parent_id}`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
     );
     const childrenOfParentData = await childrenOfParentResponse.json();
     setChildrenOfParent(childrenOfParentData.payload);
@@ -31,7 +59,7 @@ export default function Signup() {
     setIsLoading(false);
   }
 
-  console.log(childrenOfParent)
+  console.log(childrenOfParent);
 
   if (isLoading) {
     return <h1>...Loading</h1>;
@@ -51,7 +79,7 @@ export default function Signup() {
           <h1>Little Ones:</h1>
         </div>
         <div>
-            <ChildList childrenOfParent={childrenOfParent}/>
+          <ChildList childrenOfParent={childrenOfParent} />
         </div>
       </div>
     );

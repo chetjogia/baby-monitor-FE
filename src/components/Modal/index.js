@@ -1,22 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./index.css";
-import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-} from "recharts";
+import Table from "../Table";
 
 function Modal() {
   const [modal, setModal] = useState(false);
   const [childData, setChildData] = useState(null);
   const [isloading, setIsLoading] = useState(true);
-  const [graphData, setGraphData] = useState([])
-  
+  const [graphData, setGraphData] = useState([]);
 
   useEffect(() => {
     async function getData() {
@@ -26,10 +17,17 @@ function Modal() {
       const data = await response.json();
       setChildData(data.payload);
       setIsLoading(false);
-      let graph = await data.payload.map(element=>{return {"time": element.feeding_time, y: Number(element.quantity)}})
-      setGraphData(graph)
-      console.log(graph)
-     
+      console.log(data.payload);
+      let graph = await data.payload.map((element) => {
+        let date = new Date(element.feeding_time);
+        return {
+          time: date.toDateString(),
+          amount: Number(element.quantity),
+          type: element.type,
+          comment: element.comment,
+        };
+      });
+      setGraphData(graph);
     }
     getData();
   }, []);
@@ -37,6 +35,8 @@ function Modal() {
   function toggleModal() {
     setModal(!modal);
   }
+
+  let heading = ["Time", "Amount (ml)", "Type", "Comment"];
 
   return (
     <>
@@ -53,26 +53,12 @@ function Modal() {
           </div>
         ) : (
           <>
-          
             <div className="modal">
               <div onClick={toggleModal} className="overlay"></div>
               <div className="modal-content">
+                <h1>Feeding</h1>
+                <Table heading={heading} body={graphData} />
                 <button onClick={toggleModal}>Close</button>
-                <h1 className="title">Feeding Data</h1>
-                
-                <LineChart
-                  width={1000}
-                  height={250}
-                  data={graphData}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="time" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="y" stroke="#8884d8" />
-                </LineChart>
               </div>
             </div>
           </>
