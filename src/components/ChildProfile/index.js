@@ -1,25 +1,28 @@
 import React, { useEffect } from "react";
 import "./index.css";
-import { useState } from "react";
+import {useState } from "react";
+import { useLocation } from "react-router-dom";
 import Modal from "../Modal";
 
 function ChildProfile() {
   const [isLoading, setIsLoading] = useState(true);
   const [child, setChild] = useState(null);
+  const location = useLocation()
 
   useEffect(() => {
     getChildData();
   }, []);
-
+  console.log(location)
   async function getChildData() {
     //fetch request to obtain data for individual child who's been clicked in (atm, hard coded for child with id 1)
     const childResponse = await fetch(
-      "http://localhost:3000/api/babymonitor/children/1"
+      `http://localhost:3000/api/babymonitor/children/${location.state?.id}`
     );
     const childData = await childResponse.json();
     setChild(childData.payload[0]);
     setIsLoading(false);
   }
+  
   console.log(child);
 
   if (isLoading) {

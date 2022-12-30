@@ -1,7 +1,8 @@
 .welcome-bar{
+    display:flex;
     height:100px;
     background-color: lightblue;
-
+    justify-content: center;
     width: 60%;
     margin:auto;
     margin-top:230px;

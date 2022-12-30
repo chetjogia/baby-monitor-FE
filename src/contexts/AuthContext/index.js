@@ -9,7 +9,7 @@ export function useAuth() {
 export default function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
 
-function logout(){
+ function logout(){
   auth.signOut()
 }
 

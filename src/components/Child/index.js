@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import "./index.css"
 
 function Child({child}){
@@ -6,7 +7,7 @@ function Child({child}){
         <div className='child-preview'>
             <h1>{child.first_name}</h1>
             <img src={child.profile_picture} alt="baby"/>
-            <button>View Child</button>
+            <Link to="/child" state={{id:child.children_id}}><button>View Child</button></Link>
         </div>
     )
 }

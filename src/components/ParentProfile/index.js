@@ -13,25 +13,15 @@ export default function Signup() {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-   /*  fetchData() */
+
     getParentAndChildData();
   }, []);
 
   
-/* 
-  async function fetchData() {
-
-    const response = await fetch(
-      `http://localhost:3000/api/babymonitor/parent/`
-    );
-    const data = await response.json();
-    console.log(data);
-  } */
 
   async function getParentAndChildData() {
     let token = await currentUser.getIdToken()
-    //fetch request to obtain data for individual parent who's logged in (atm, hard coded for parent with id 1)
-    //TODO change the parent based on who's logged in;
+    console.log("CURRENT", currentUser)
     const parentResponse = await fetch(
       `http://localhost:3000/api/babymonitor/parent/${currentUser.uid}`,
       {
@@ -43,8 +33,7 @@ export default function Signup() {
     const parentData = await parentResponse.json();
     setParent(parentData.payload[0]);
     console.log("PARENT", parentData)
-    //fetch request to obtain data for the children belonging to the parent who has logged in
-    //Parent ID currently hardcoded as above
+
     const childrenOfParentResponse = await fetch(
       `http://localhost:3000/api/babymonitor/parentchildren/${parentData.payload[0].parent_id}`,
       {
@@ -55,7 +44,6 @@ export default function Signup() {
     );
     const childrenOfParentData = await childrenOfParentResponse.json();
     setChildrenOfParent(childrenOfParentData.payload);
-
     setIsLoading(false);
   }
 
