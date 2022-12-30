@@ -18,7 +18,6 @@ function Header() {
 
       setHidden(true);
       navigate("/profile");
-      console.log("CURRENT", currentUser)
       await fetch(
         `http://localhost:3000/api/babymonitor/parentlogin/`,
         {
