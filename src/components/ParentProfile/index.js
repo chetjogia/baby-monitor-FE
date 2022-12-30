@@ -8,7 +8,7 @@ export default function Signup() {
   const [isLoading, setIsLoading] = useState(true);
   const [parent, setParent] = useState(null);
   const [childrenOfParent, setChildrenOfParent] = useState(null);
-  const [token, setToken] = useState()
+
 
   const { currentUser } = useAuth();
 
@@ -21,7 +21,6 @@ export default function Signup() {
 
   async function getParentAndChildData() {
     let token = await currentUser.getIdToken()
-    console.log("CURRENT", currentUser)
     const parentResponse = await fetch(
       `http://localhost:3000/api/babymonitor/parent/${currentUser.uid}`,
       {
@@ -32,7 +31,6 @@ export default function Signup() {
     );
     const parentData = await parentResponse.json();
     setParent(parentData.payload[0]);
-    console.log("PARENT", parentData)
 
     const childrenOfParentResponse = await fetch(
       `http://localhost:3000/api/babymonitor/parentchildren/${parentData.payload[0].parent_id}`,

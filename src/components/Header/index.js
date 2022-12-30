@@ -7,15 +7,18 @@ import { useAuth } from "../../contexts/AuthContext/index.js";
 
 function Header() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
-  const [hidden, setHidden] = useState("false");
+  const { currentUser,logout } = useAuth();
+  const [hidden, setHidden] = useState(false);
 
   async function signIn() {
     const result = await signInWithGoogle();
     let token = await result.user.getIdToken();
-    console.log("TOKEN", token);
-    console.log("RESULT", result);
     if (result) {
+
+
+      setHidden(true);
+      navigate("/profile");
+      console.log("CURRENT", currentUser)
       await fetch(
         `http://localhost:3000/api/babymonitor/parentlogin/`,
         {
@@ -27,9 +30,6 @@ function Header() {
           method:"POST",
           body: JSON.stringify(result.user)
         });
-
-      setHidden(true);
-      navigate("/profile");
     } else {
       navigate("/");
     }

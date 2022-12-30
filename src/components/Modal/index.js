@@ -2,36 +2,45 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./index.css";
 import Table from "../Table";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Modal() {
   const [modal, setModal] = useState(false);
   const [childData, setChildData] = useState(null);
   const [isloading, setIsLoading] = useState(true);
   const [graphData, setGraphData] = useState([]);
-
+  const {currentUser} = useAuth()
   useEffect(() => {
-    async function getData() {
-      const response = await fetch(
-        "http://localhost:3000/api/babymonitor/feeding"
-      );
-      const data = await response.json();
-      setChildData(data.payload);
-      setIsLoading(false);
-      console.log(data.payload);
-      let graph = await data.payload.map((element) => {
-        let date = new Date(element.feeding_time);
-        return {
-          time: date.toDateString(),
-          amount: Number(element.quantity),
-          type: element.type,
-          comment: element.comment,
-        };
-      });
-      setGraphData(graph);
-    }
+    
     getData();
   }, []);
+  async function getData() {
+    let token = await currentUser.getIdToken()
+    const response = await fetch(
+      
+      "http://localhost:3000/api/babymonitor/feeding",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
 
+    );
+    const data = await response.json();
+    setChildData(data.payload);
+    setIsLoading(false);
+    console.log(data.payload);
+    let graph = await data.payload.map((element) => {
+      let date = new Date(element.feeding_time);
+      return {
+        time: date.toDateString(),
+        amount: Number(element.quantity),
+        type: element.type,
+        comment: element.comment,
+      };
+    });
+    setGraphData(graph);
+  }
   function toggleModal() {
     setModal(!modal);
   }
