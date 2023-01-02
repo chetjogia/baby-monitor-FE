@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import "./index.css";
 import ChildList from "../ChildList";
 import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
+export const parentContext = createContext();
 
 export default function Signup() {
   const [isLoading, setIsLoading] = useState(true);
   const [parent, setParent] = useState(null);
   const [childrenOfParent, setChildrenOfParent] = useState(null);
 
-
   const { currentUser } = useAuth();
 
   useEffect(() => {
-
     getParentAndChildData();
   }, []);
 
-  
-
   async function getParentAndChildData() {
-    let token = await currentUser.getIdToken()
+    let token = await currentUser.getIdToken();
     const parentResponse = await fetch(
       `http://localhost:3000/api/babymonitor/parent/${currentUser.uid}`,
       {
@@ -65,7 +62,9 @@ export default function Signup() {
           <h1>Little Ones:</h1>
         </div>
         <div>
-          <ChildList childrenOfParent={childrenOfParent} />
+          <parentContext.Provider value={parent}>
+            <ChildList childrenOfParent={childrenOfParent} setChildrenOfParent={setChildrenOfParent} />
+          </parentContext.Provider>
         </div>
       </div>
     );
