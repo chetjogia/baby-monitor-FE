@@ -1,4 +1,19 @@
 .table{
-    border:solid;
+ 
     border-collapse: collapse;
+    width: 100%;
+
+}
+
+
+.add-data{
+    align-self: center;
+    justify-self: center;
+    line-height: 23px;
+}
+
+
+.date-container{
+    width: 100%;
+    height: 100%;
 }

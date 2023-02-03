@@ -10,6 +10,7 @@ function Modal() {
   const [isloading, setIsLoading] = useState(true);
   const [graphData, setGraphData] = useState([]);
   const {currentUser} = useAuth()
+  
   useEffect(() => {
     
     getData();
@@ -29,7 +30,7 @@ function Modal() {
     const data = await response.json();
     setChildData(data.payload);
     setIsLoading(false);
-    console.log(data.payload);
+    console.log("check", data.payload);
     let graph = await data.payload.map((element) => {
       let date = new Date(element.feeding_time);
       return {
@@ -44,6 +45,32 @@ function Modal() {
   function toggleModal() {
     setModal(!modal);
   }
+
+
+  async function handleClick(dataObject) {
+    console.log(dataObject)
+
+    let newArray = [...graphData]
+    console.log("NEW", newArray)
+    console.log("GRAPH", graphData)
+ 
+
+    let token = await currentUser.getIdToken();
+    console.log(token)
+    fetch("http://localhost:3000/api/babymonitor/feeding/1", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      method: "POST",
+      body: JSON.stringify(dataObject),
+    });
+    dataObject.time = new Date(dataObject.time).toLocaleDateString('en-gb', {weekday: 'short', month:'short', day:'2-digit', year:'numeric'})
+    newArray.push(dataObject)
+    setGraphData(newArray)
+  }
+  
 
   let heading = ["Time", "Amount (ml)", "Type", "Comment"];
 
@@ -66,7 +93,7 @@ function Modal() {
               <div onClick={toggleModal} className="overlay"></div>
               <div className="modal-content">
                 <h1>Feeding</h1>
-                <Table heading={heading} body={graphData} />
+                <Table handleClick={handleClick} childData={childData} heading={heading} body={graphData} />
                 <button onClick={toggleModal}>Close</button>
               </div>
             </div>

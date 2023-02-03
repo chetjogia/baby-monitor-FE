@@ -1,5 +1,24 @@
 .cell{
-    border:solid;
-    flex-direction: row;
-  text-align: center;
+  border:solid;
+  flex-direction: row;
+text-align: center;
+padding:0 ;
+margin: 0;
+  
 }
+
+
+td{
+  flex-direction: column;
+  border:solid;
+  padding: 0;
+  margin: 0;
+}
+
+input{
+  border:none;
+  padding: 0;
+  margin:0;
+  line-height: 25px;
+}
+
